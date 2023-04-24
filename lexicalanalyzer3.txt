@@ -1,0 +1,65 @@
+import shlex
+
+code = """
+int a = 10 ;
+int b = 3 ;
+float c = 23;
+int add ( int x, int y ) {
+    return x + y ;
+}
+
+"""
+tokens = shlex.split(code)
+print(tokens)
+
+
+dell=["||",'-','*','/',',',';','>','<','=','(',')','[',']','}']
+key = ["if", "else", "while", "do", "break", "continue", "int", "double", "float", "return", "char", "case", "sizeof", "long", "short", "typedef", "switch", "unsigned", "void", "static", "struct", "goto"]
+op=["+", "-", "*", "/", ">", "<", "="]
+
+#if s.isdigit():
+delll=[]
+keyy=[]
+opp=[]
+inte=[]
+inva=[]
+for token in tokens:
+  if token in dell:
+    delll.append(token)
+  elif token in key:
+    keyy.append(token)
+  elif token in op:
+    opp.append(token)
+  elif token.isdigit():
+    inte.append(token)
+  else:
+    inva.append(token)
+
+
+
+import re
+
+def extract_symbols(code):
+    s = []
+    lines = code.split('\n')
+    for i, line in enumerate(lines):
+        match = re.search(r'(\w+)\s+(\w+)\s*(=\s*\S+)?', line)
+        if match:
+            symbol_type = match.group(1)
+            symbol_name = match.group(2)
+            if symbol_type == "int" or "float" or "char":
+                s.append(symbol_name)
+    return s
+
+s = extract_symbols(code)
+
+for i in inva:
+  if i in s:
+    inva.remove(i)
+
+print(f'delimiters are= {delll}')
+print(f'keywords are= {keyy}')
+print(f'operators are= {opp}')
+print(f'integers are= {inte}')
+print(f"variables are = {s}")
+print(f'invalids are= {inva}')
